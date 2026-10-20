@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gestion des fournisseurs et des paiements</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+</head>
+<body>
+<div id="racine"></div>
+<div id="modal"></div>
+<div id="toast"></div>
+<script>window.APP_VERSION = "{{ version }}";</script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

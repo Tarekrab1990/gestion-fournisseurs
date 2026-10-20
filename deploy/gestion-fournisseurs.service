@@ -1,0 +1,29 @@
+# Copier dans /etc/systemd/system/, puis :
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now gestion-fournisseurs
+[Unit]
+Description=Gestion des fournisseurs et des paiements
+After=network.target
+
+[Service]
+Type=simple
+User=gestion
+Group=gestion
+WorkingDirectory=/opt/gestion-fournisseurs
+Environment=DATA_DIR=/var/lib/gestion-fournisseurs
+Environment=COOKIE_SECURE=1
+EnvironmentFile=-/etc/gestion-fournisseurs.env
+ExecStart=/opt/gestion-fournisseurs/.venv/bin/gunicorn \
+    --bind 127.0.0.1:8000 --workers 3 --timeout 60 wsgi:application
+Restart=on-failure
+RestartSec=5
+
+# Durcissement
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/gestion-fournisseurs
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,32 @@
+services:
+  gestion-fournisseurs:
+    build: .
+    container_name: gestion-fournisseurs
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8000:8000"       # exposé au reverse proxy seulement
+    volumes:
+      - ./data:/srv/data            # base, pièces jointes, clé de session
+    environment:
+      SECRET_KEY: ${SECRET_KEY:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      COOKIE_SECURE: "1"
+      SESSION_HOURS: "10"
+      # Pour PostgreSQL, décommentez la ligne suivante, le service « base »
+      # plus bas, et ajoutez « depends_on: [base] » ci-dessous.
+      # DATABASE_URL: postgresql://gestion:${POSTGRES_PASSWORD}@base:5432/gestion
+
+  # --- PostgreSQL, facultatif ------------------------------------------------
+  # base:
+  #   image: postgres:16-alpine
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_DB: gestion
+  #     POSTGRES_USER: gestion
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #   volumes:
+  #     - ./data-postgres:/var/lib/postgresql/data
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U gestion"]
+  #     interval: 10s

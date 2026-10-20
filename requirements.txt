@@ -1,0 +1,11 @@
+Flask>=3.0,<4.0
+
+# Serveur WSGI de production : gunicorn sous Linux, waitress sous Windows.
+gunicorn>=21.2 ; sys_platform != "win32"
+waitress>=3.0 ; sys_platform == "win32"
+
+# Lecture du classeur Excel (scripts/importer_excel.py uniquement)
+openpyxl>=3.1
+
+# PostgreSQL — à installer seulement si DATABASE_URL pointe vers PostgreSQL :
+#   pip install "psycopg[binary]"
